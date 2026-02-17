@@ -10,12 +10,12 @@ public class Entity {
     public BufferedImage left1, left2, left3, left4, left5, left6, left7;
     public BufferedImage right1, right2, right3, right4, right5, right6, right7;
 
-    // ท่ากระโดด
+
     public BufferedImage jump1, jump2, jump3, jump4, jump5, jump6, jump7, jump8, jump9;
 
-    // --- เพิ่มส่วนนี้: ท่าตก (Fall) ---
+
     public BufferedImage fall1, fall2, fall3, fall4, fall5, fall6, fall7;
-    // -------------------------------
+
 
     public String direction;
     public int spriteCounter = 0;

@@ -6,10 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="0c1fb7c0-69d6-4674-b225-9fc1248aed55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/Key.java" beforeDir="false" afterPath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/CovidTale/CovidTale/src/main/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CovidTale/main/GamePanel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CovidTale/main/GamePanel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CovidTale/main/Key.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CovidTale/main/Key.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CovidTale/main/entity/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CovidTale/main/entity/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CovidTale/main/entity/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CovidTale/main/entity/Player.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

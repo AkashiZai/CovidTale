@@ -8,19 +8,19 @@ public class GamePanel extends JPanel implements Runnable{
     final int tile = 16;
     final int scale = 4;
 
-    public final int tileSize = tile * scale; // Public so Player can access it
+    public final int tileSize = tile * scale;
     public final int maxScreenColumn = 16;
     public final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenColumn;
     public final int screenHeight = tileSize * maxScreenRow;
 
-    // FPS
     int FPS = 60;
 
     Key keyH = new Key();
     Thread gameThread;
-    public Player player = new Player(this, keyH);
 
+    // สร้าง Player โดยส่ง GamePanel (this) และ Key (keyH) เข้าไป
+    public Player player = new Player(this, keyH);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -56,13 +56,15 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        player.update(); // Updates the Player object
+        player.update(); // เรียกใช้ update ของ Player
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        player.draw(g2);
+
+        player.draw(g2); // เรียกใช้ draw ของ Player
+
         g2.dispose();
     }
 }

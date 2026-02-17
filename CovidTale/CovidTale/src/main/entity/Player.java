@@ -1,128 +1,89 @@
-package main;
+package main.entity;
 
+import main.GamePanel;
+import main.Key;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage; // นำเข้า
-import java.io.IOException;          // นำเข้า
-import javax.imageio.ImageIO;        // นำเข้า
-import javax.swing.JPanel;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-public class GamePanel extends JPanel implements Runnable{
-    final int tile = 16;
-    final int scale = 4;
+public class Player extends Entity {
 
-    final int tileSize = tile * scale;
-    final int maxScreenColumn = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenColumn;
-    final int screenHeight = tileSize * maxScreenRow;
+    GamePanel gp;
+    Key keyH;
 
-    Key keyH = new Key();
-    Thread gameThread;
+    public Player(GamePanel gp, Key keyH) {
+        this.gp = gp;
+        this.keyH = keyH;
 
-    int playerX = 100;
-    int playerY = 100;
-    int playerspeed = 4;
-
-    // --- UPDATED: ส่วนที่เพิ่มเข้ามาสำหรับ Animation ---
-    BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-    String direction = "down"; // ทิศทางเริ่มต้น
-    int spriteCounter = 0;     // ตัวนับเวลาสำหรับสลับภาพ
-    int spriteNum = 1;         // เลขระบุภาพ (1 หรือ 2)
-    // ------------------------------------------------
-
-    public GamePanel(){
-        this.setPreferredSize(new Dimension(screenWidth,screenHeight));
-        this.setBackground(Color.black);
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyH);
-        this.setFocusable(true);
-
-        getPlayerImage(); // เรียกโหลดรูปภาพเมื่อเริ่มเกม
+        setDefaultValues();
+        getPlayerImage();
     }
 
-    // --- UPDATED: ฟังก์ชันโหลดรูปภาพ ---
+    public void setDefaultValues() {
+        x = 100;
+        y = 100;
+        speed = 4;
+        direction = "down";
+    }
+
     public void getPlayerImage() {
         try {
-            // หมายเหตุ: ต้องแก้ path ให้ตรงกับที่คุณวางไฟล์จริง
-            // เช่นถ้าไฟล์อยู่ใน src/player/ ก็ใช้ "/player/ชื่อไฟล์.png"
+            down1 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder34.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder35.png"));
 
-            // ชุดเดินลง (หน้าตรง)
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder91.png")); // ยืน
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder95.png")); // เดิน
+            // เดินขึ้น (หันหลัง)
+            up1 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder34.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder35.png"));
 
-            // ชุดเดินขึ้น (หันหลัง)
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder92.png")); // ยืน
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder98.png")); // เดิน
+            // เดินซ้าย
+            left1 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder19.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder20.png"));
+            left3 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder21.png"));
+            left4 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder22.png"));
+            left5 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder23.png"));
+            left6 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder24.png"));
+            left7 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder25.png"));
 
-            // ชุดเดินซ้าย
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder97.png")); // ยืน
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder99.png")); // เดิน
-
-            // ชุดเดินขวา
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder93.png")); // ยืน
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/Nurse-16x16-Base-Folder94.png")); // เดิน
+            // เดินขวา
+            right1 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder26.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder27.png"));
+            right3 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder28.png"));
+            right4 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder29.png"));
+            right5 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder30.png"));
+            right6 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder31.png"));
+            right7 = ImageIO.read(getClass().getResourceAsStream("/main/res/Nurse-16x16-Base-Folder32.png"));
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: NO PICTURE PLEASE CHECK A FILE PATH");
             e.printStackTrace();
         }
     }
 
-    public void startGameThread(){
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    @Override
-    public void run() {
-        double drawInterval = 1000000000 / 60;
-        double nextDrawTime = System.nanoTime() + drawInterval;
-
-        while (gameThread != null) {
-
-            update();
-            repaint();
-
-            try {
-                double remainingTime = nextDrawTime - System.nanoTime();
-                remainingTime = remainingTime / 1000000;
-
-                if (remainingTime < 0) {
-                    remainingTime = 0;
-                }
-
-                Thread.sleep((long) remainingTime);
-                nextDrawTime += drawInterval;
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void update() {
-        // เช็คว่ามีการกดปุ่มหรือไม่ ถ้ากดปุ่มถึงจะอัปเดต Animation
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 
+            // เคลื่อนที่
             if (keyH.upPressed) {
                 direction = "up";
-                playerY -= playerspeed;
-            }
-            else if (keyH.downPressed) {
+                y -= speed;
+            } else if (keyH.downPressed) {
                 direction = "down";
-                playerY += playerspeed;
-            }
-            else if (keyH.leftPressed) {
+                y += speed;
+            } else if (keyH.leftPressed) {
                 direction = "left";
-                playerX -= playerspeed;
-            }
-            else if (keyH.rightPressed) {
+                x -= speed;
+            } else if (keyH.rightPressed) {
                 direction = "right";
-                playerX += playerspeed;
+                x += speed;
             }
 
-            // --- UPDATED: Logic สลับ Animation ---
+            // คำนวณอนิเมชั่น (สลับขา)
             spriteCounter++;
-            if (spriteCounter > 12) { // เลข 12 คือความเร็วในการสลับภาพ (ยิ่งน้อยยิ่งสลับไว)
+            if (spriteCounter > 12) { // ทุกๆ 12 เฟรม ให้เปลี่ยนรูป
                 if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
@@ -131,17 +92,12 @@ public class GamePanel extends JPanel implements Runnable{
                 spriteCounter = 0;
             }
         }
-        // ถ้าต้องการให้หยุดเดินแล้วกลับมาเป็นท่ายืนเสมอ ให้เพิ่ม else ตรงนี้แล้ว set spriteNum = 1;
     }
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D)g;
-
-        // --- UPDATED: เปลี่ยนจากวาดสี่เหลี่ยม เป็นวาดรูปภาพ ---
+    public void draw(Graphics2D g2) {
         BufferedImage image = null;
 
-        switch(direction) {
+        switch (direction) {
             case "up":
                 if (spriteNum == 1) image = up1;
                 if (spriteNum == 2) image = up2;
@@ -153,19 +109,23 @@ public class GamePanel extends JPanel implements Runnable{
             case "left":
                 if (spriteNum == 1) image = left1;
                 if (spriteNum == 2) image = left2;
+                if (spriteNum == 3) image = left3;
+                if (spriteNum == 4) image = left4;
+                if (spriteNum == 5) image = left5;
+                if (spriteNum == 6) image = left6;
+                if (spriteNum == 7) image = left7;
                 break;
             case "right":
                 if (spriteNum == 1) image = right1;
                 if (spriteNum == 2) image = right2;
+                if (spriteNum == 3) image = right3;
+                if (spriteNum == 4) image = right4;
+                if (spriteNum == 5) image = right5;
+                if (spriteNum == 6) image = right6;
+                if (spriteNum == 7) image = right7;
                 break;
         }
 
-        // วาดภาพลงบนจอ
-        g2.drawImage(image, playerX, playerY, tileSize, tileSize, null);
-
-        // g2.setColor(Color.white); // ของเก่า
-        // g2.fillRect(playerX,playerY,tileSize,tileSize); // ของเก่า
-
-        g2.dispose();
+        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }
 }
